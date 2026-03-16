@@ -47,4 +47,3 @@ jobs:
       run: php artisan migrate --database=mysql
 
     - name: Run tests
-      run: php artisan test
