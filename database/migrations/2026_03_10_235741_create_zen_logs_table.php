@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zen_logs', function (Blueprint $table) {
+        Schema::create('habit_logs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('habit_id')->constrained('habits')->cascadeOnDelete();
+            $table->date('completed_at');
+            $table->text('note')->nullable();
             $table->timestamps();
+
+            $table->unique(['habit_id', 'completed_at']);
+            $table->index(['habit_id', 'completed_at']);
         });
     }
 
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zen_logs');
+        Schema::dropIfExists('habit_logs');
     }
 };

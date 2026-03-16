@@ -11,9 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zens', function (Blueprint $table) {
+        Schema::create('habits', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('title', 100);
+            $table->text('description')->nullable();
+            $table->enum('frequency', ['daily', 'weekly', 'monthly']);
+            $table->unsignedInteger('target_days')->default(1);
+            $table->string('color', 7)->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+
+            $table->index(['user_id', 'is_active']);
+            $table->index('user_id');
+            $table->index('is_active');
         });
     }
 
@@ -22,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zens');
+        Schema::dropIfExists('habits');
     }
 };
